@@ -1,5 +1,5 @@
 import React from 'react';
-import {render, screen, waitFor } from '@testing-library/react';
+import {queryByLabelText, queryByText, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import ContactForm from './ContactForm';
@@ -59,9 +59,24 @@ test('renders THREE error messages if user enters no values into any fields.', a
     })
 });
 
-// test('renders ONE error message if user enters a valid first name and last name but no email.', async () => {
+test('renders ONE error message if user enters a valid first name and last name but no email.', async () => {
+    render(<ContactForm />)
+
+    // get firstName and lastName inputs along with submit button
+    const firstName = screen.queryByLabelText(/first name/i)
+    const lastName = screen.queryByLabelText(/last name/i)
+    const button = screen.getByRole('button')
+
+    // user events
+    userEvent.type(firstName, 'Bucky')
+    userEvent.type(lastName, 'Nahershalahasbaz')
+    userEvent.click(button)
     
-// });
+    await waitFor (() => {
+        const emailError = screen.queryByText('Error: email must be a valid email address.')
+        expect(emailError).toBeInTheDocument()
+    })
+});
 
 // test('renders "email must be a valid email address" if an invalid email is entered', async () => {
     
