@@ -137,10 +137,40 @@ test('renders all firstName, lastName and email text when submitted. Does NOT re
     expect(displayedLastName).toBeInTheDocument()
     expect(displayedEmail).toBeInTheDocument()
     expect(messageDisplay).toBeFalsy()
-
-
 });
 
-// test('renders all fields text when all fields are submitted.', async () => {
-    
-// });
+test('renders all fields text when all fields are submitted.', async () => {
+    render(<ContactForm />)
+
+    // inputs for form
+    const firstName = 'Matthew'
+    const lastName = 'Simeon'
+    const email = 'matt@matt.com'
+    const message = 'hello world'
+
+    // get all inputs 
+    const firstNameInput = screen.getByLabelText(/first name/i)
+    const lastNameInput = screen.getByLabelText(/last name/i)
+    const emailInput = screen.getByLabelText(/email/i)
+    const messageInput = screen.getByLabelText(/message/i)
+    const submitButton = screen.getByRole('button')
+
+    // user events
+    userEvent.type(firstNameInput, firstName)
+    userEvent.type(lastNameInput, lastName)
+    userEvent.type(emailInput, email)
+    userEvent.type(messageInput, message)
+    userEvent.click(submitButton)
+
+    // grab display elements
+    const displayedFirstName = await screen.queryByTestId(/firstnamedisplay/i)
+    const displayedLastName = await screen.queryByTestId(/lastnamedisplay/i)
+    const displayedEmail = await screen.queryByTestId(/emaildisplay/i)
+    const messageDisplay = await screen.queryByTestId(/messagedisplay/i)
+
+    // Assert
+    expect(displayedFirstName).toBeInTheDocument()
+    expect(displayedLastName).toBeInTheDocument()
+    expect(displayedEmail).toBeInTheDocument()
+    expect(messageDisplay).toBeInTheDocument()
+});
