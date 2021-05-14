@@ -1,19 +1,9 @@
 import React, { useState } from "react";
 import DisplayComponent from './DisplayComponent';
 
-const formData = {
-  firstName: "",
-  lastName: "",
-  email: "",
-  message: ""
-}
+import { formData, errorData } from '../inititialData/initialData'
 
-const errorData = {
-  firstName: "",
-  lastName: "",
-  email: "",
-  message: ""
-}
+
 
 const ContactForm = () => {
   const [displayData, setDisplayData] = useState(false);
